@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+        <title>Summer Project map</title>
+
+        <!--CSS STYLE SHEETS-->
+        <link rel="stylesheet" href="https://js.arcgis.com/3.29/dijit/themes/claro/claro.css"/>
+        <link rel="stylesheet" href="https://js.arcgis.com/3.29/esri/css/esri.css"/>
+        <link rel="stylesheet" type="text/css" href="/SP_map.css"/>
+    </head>
+
+    <body {{ BODY_ATTRS }}>
+
+        {{ APP }}
+       
+         <!--API LINKS-->
+        <script src="https://js.arcgis.com/3.29compact/"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtsysKdAwT9jbKdgDJJPlaPVBm2wZRR2c&callback=initialize"></script>
+
+        <!--CODE LINKS-->
+        
+        <script src="/JS_map.js"></script>        
+    </body>
+</html>
