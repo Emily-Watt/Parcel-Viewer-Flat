@@ -9,6 +9,10 @@
 import Sidebar from '../components/Sidebar'
 import Map from '../components/Map'
 
+const dojoConfig = {
+
+}
+
 export default {
     head: {
       bodyAttrs: {
@@ -18,6 +22,11 @@ export default {
   components: {
     Sidebar,
     Map
+  },
+  methods: {
+    initMap() {
+      require()
+    }
   },
   mounted() {
 

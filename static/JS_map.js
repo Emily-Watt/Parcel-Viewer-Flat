@@ -4,6 +4,8 @@ let ex;
 let why;
 let coordPair;
 
+const dojo
+
 require([
   "dojo/ready",
   "dojo/on",
