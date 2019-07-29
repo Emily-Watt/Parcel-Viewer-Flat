@@ -8,26 +8,6 @@
 <script>
     export default {
         name: 'Map',
-        props: {
-            deps: Array,
-        },
-        data(){
-            return {
-                
-            }
-        },
-        methods: {
-            buildMap(){
-                    
-            },
-            getMap(){
-               
-            },
-        },
-        mounted(){
-           
-        }
-        
     }
 </script>
 

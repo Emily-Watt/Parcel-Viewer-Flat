@@ -139,7 +139,7 @@ export default {
 
            const GeoService = new GeometryService("https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");
 
-            // ParcelMap.on("click", this.getLatLong());
+            ParcelMap.on("click", this.getLatLong());
             
           /*
             // Extent/Bounding Box
@@ -427,7 +427,7 @@ export default {
             // search.set("sources", sources);
             // search.startup();
 
-          }) // END OF THEN
+          }) // END OF .then()
           .catch(err => {
             // handle any script or module loading errors
             console.error(err);
