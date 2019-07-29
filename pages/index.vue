@@ -127,20 +127,26 @@ export default {
             // CONTENTS OF ready() function
 
             // BUILDS BASE PARCEL MAP
-            
+            const boundingBox = this.getBoundingBox(Extent, SpatialReference)
             const ParcelMap = this.buildMap(
               ParcelMap, 
               Map, 
               Extent, 
               FeatureLayer, 
               SpatialReference, 
-              ArcGISTiledMapServiceLayer);
+              ArcGISTiledMapServiceLayer,
+              boundingBox);
             
 
-           const GeoService = new GeometryService("https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");
+            const GeoService = new GeometryService("https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");
 
-            ParcelMap.on("click", this.getLatLong());
-            
+            let previousExtent = ParcelMap.extent.getExtent();
+            this.mapOnExtentChange(ParcelMap, boundingBox, previousExtent)
+            // ParcelMap.on("click", this.getLatLong());
+
+           
+
+
           /*
             // Extent/Bounding Box
             let previousExtent = ParcelMap.extent.getExtent();
@@ -438,7 +444,7 @@ export default {
                       new SpatialReference({ wkid:4326 })
                       ); 
         },
-        buildMap(MapName, Map, Extent, FeatureLayer, SpatialReference, ArcGISTiledMapServiceLayer) {
+        buildMap(MapName, Map, Extent, FeatureLayer, SpatialReference, ArcGISTiledMapServiceLayer, boundingBox) {
 
 
           try {
@@ -446,7 +452,7 @@ export default {
             console.log('IN --->', MapName)
 
             MapName = new Map("parcel-map", {
-                extent: this.getBoundingBox(Extent, SpatialReference),
+                extent: boundingBox,
                 basemap: "streets",  
             });
           
@@ -511,7 +517,22 @@ export default {
                 // let ex = coordPair.x;
                 // let why = coordPair.y;
                 // return coordPair;
-        }
+        },
+        mapOnExtentChange(MapName, boundingBox, previousExtent) {
+              
+              MapName.on("extent-change", () => {
+                let currentExtent = MapName.extent.getExtent();
+                if (boundingBox.contains(MapName.extent.getCenter())){
+                // Update previous extent
+                    return previousExtent = MapName.extent.getExtent();
+                }
+                else {
+                // if new extent is not in bounding box then reset to previous extent.
+                    return MapName.setExtent(previousExtent);
+                }
+                  
+              })
+        },      
     },
     mounted() {
 
