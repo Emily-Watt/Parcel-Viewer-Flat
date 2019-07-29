@@ -1,5 +1,5 @@
 <template>
-    <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
+    <div id="parcel-map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
         <div id="search" placeholder="Choose from the dropdown" title="Choose from the dropdown">
         </div>
     </div>
@@ -7,7 +7,27 @@
 
 <script>
     export default {
-        name: 'Map'
+        name: 'Map',
+        props: {
+            deps: Array,
+        },
+        data(){
+            return {
+                
+            }
+        },
+        methods: {
+            buildMap(){
+                    
+            },
+            getMap(){
+               
+            },
+        },
+        mounted(){
+           
+        }
+        
     }
 </script>
 

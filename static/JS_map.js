@@ -56,7 +56,7 @@ require([
         FeatureLayer,
         InfoTemplate,
         ArcGISTiledMapServiceLayer
-    ){  debugger
+    ){  
         ready(function() {
             
             parser.parse();
