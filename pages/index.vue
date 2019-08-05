@@ -140,9 +140,10 @@ export default {
 
             const GeoService = new GeometryService("https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");
 
-            let previousExtent = ParcelMap.extent.getExtent();
-            this.mapOnExtentChange(ParcelMap, boundingBox, previousExtent)
-            // ParcelMap.on("click", this.getLatLong());
+            let previousExtent = ParcelMap.extent.getExtent(); // PARAMETER TO HELP DEFINE MAP BOUNDARIES
+            this.mapOnExtentChange(ParcelMap, boundingBox, previousExtent) // HANDLER TO RESTRICT MAP TO BOUNDING BOX
+            this.initializeSidebar(ParcelMap, dom, domUtils) 
+            ParcelMap.on("click", this.getLatLong)
 
            
 
@@ -449,7 +450,7 @@ export default {
 
           try {
 
-            console.log('IN --->', MapName)
+            // console.log('IN --->', MapName)
 
             MapName = new Map("parcel-map", {
                 extent: boundingBox,
@@ -463,7 +464,7 @@ export default {
           })
            
 
-            console.log('OUT--->', MapName)
+            // console.log('OUT--->', MapName)
 
             return MapName
             
@@ -502,9 +503,38 @@ export default {
         addLayersToBase(mapName, layerArray) {
           return mapName.addLayers(layerArray)
         },
-        getLatLong() {
+        initializeSidebar(MapName, dom, domUtils) {
+           const popup = MapName.infoWindow;
+            //when the selection changes update the side panel to display the popup info for the
+            //currently selected feature.
+            popup.on("SelectionChange", function() {
+              this.displayPopupContent(popup.getSelectedFeature());
+            });
+            //when the selection is cleared remove the popup content from the side panel.
+            popup.on("ClearFeatures", function() {
+              dom.byId("featureCount").innerHTML = "Click to select feature(s)";
+              registry.byId("leftPane").set("content", "");
+              domUtils.hide(dom.byId("pager"));
+            });
+            //When features are associated with the  map's info window update the sidebar with the new content.
+            popup.on("SetFeatures", function() {
+              this.displayPopupContent(popup.getSelectedFeature());
+              dom.byId("featureCount").innerHTML = popup.features.length + " feature(s) selected";
+              //Enable navigation if more than one feature is selected
+              popup.features.length > 1 ? domUtils.show(dom.byId("pager")) : domUtils.hide(dom.byId("pager"));
+            });
 
-            console.log('--->','getLatLong TRIGGERED')
+            return popup
+        },        
+        displayPopupContent(feature) {
+            if (feature) {
+                var content = feature.getContent();
+                registry.byId("leftPane").set("content", content);
+            }
+        },  
+        getLatLong(event) {
+
+            console.log('--->','getLatLong TRIGGERED', event)
             
 
                 // let { mapPoint } = coord;
@@ -535,7 +565,6 @@ export default {
         },      
     },
     mounted() {
-
       this.initMap();
     }
  
